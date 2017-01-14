@@ -1,10 +1,8 @@
 import edu.princeton.cs.algs4.StdRandom;
-// import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.StdStats;
-import java.util.Arrays;
 
 public class PercolationStats {
-    public double[] percThreshold;
+    private double[] percThreshold;
     public PercolationStats(int n, int trials) {
         if (n <= 0 || trials <= 0) {
             throw new IllegalArgumentException("n and trials must be >= 0.");
@@ -17,7 +15,7 @@ public class PercolationStats {
                 int col = StdRandom.uniform(1, n+1);
                 perc.open(row, col);
             }
-            percThreshold[i] = perc.numberOfOpenSites() / (n*n);
+            percThreshold[i] = perc.numberOfOpenSites() / (double) (n*n);
         }
     }
     
@@ -30,18 +28,17 @@ public class PercolationStats {
     }
 
     public double confidenceLo() {
-        return mean() - 1.96 * Math.sqrt(stddev() / percThreshold.length);
+        return mean() - 1.96 * stddev() / Math.sqrt(percThreshold.length);
     }
 
     public double confidenceHi() {
-        return mean() + 1.96 * Math.sqrt(stddev() / percThreshold.length);
+        return mean() + 1.96 * stddev() / Math.sqrt(percThreshold.length);
     }
 
     public static void main(String[] args) {
         int n = Integer.parseInt(args[0]);
         int trials = Integer.parseInt(args[1]);
         PercolationStats percStats = new PercolationStats(n, trials);
-        System.out.println(Arrays.toString(percStats.percThreshold));
         System.out.printf("%-23s = %f\n", "mean", percStats.mean());
         System.out.printf("%-23s = %f\n", "stddev", percStats.stddev());
         System.out.printf("%-23s = %f, %f\n", "95% confidence interval", percStats.confidenceLo(), percStats.confidenceHi());
