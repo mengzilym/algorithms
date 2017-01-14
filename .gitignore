@@ -1,3 +1,7 @@
 *.class
 
 Test.java
+
+# Coursera Algorithms, Part 1 programming homework
+Percolation.java
+PercolationStats.java
